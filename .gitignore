@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.vscode/
+.env
+.babelrc
+nodemon.json
+webpack.config.js
+yarn.lock
