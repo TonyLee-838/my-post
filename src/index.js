@@ -4,6 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const users = require("./routers/users");
+const auth = require("./routers/auth");
 const error = require("./middlewares/error");
 const config = require("config");
 const connectToDB = require("./setup/db");
@@ -15,6 +16,7 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 app.use("/api/users", users);
+app.use("/api/auth", auth);
 app.use(error);
 
 const port = process.env[config.get("port")] || 3003;

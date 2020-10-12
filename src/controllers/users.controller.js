@@ -1,6 +1,7 @@
 const { User, validateUser } = require("../models/user");
 const asyncWrapper = require("../middlewares/async");
 const _ = require("lodash");
+const bcrypt = require("bcrypt");
 
 const getUsers = asyncWrapper(async (req, res) => {
   const users = await User.find();
@@ -21,7 +22,13 @@ const createUser = asyncWrapper(async (req, res) => {
   const { error } = validateUser(user);
   if (error) throw new Error("ValidationError:Invalid user provided!");
 
-  const response = await new User(user).save({ new: true });
+  const salt = await bcrypt.genSalt();
+  const hashed = await bcrypt.hash(user.password, salt);
+
+  console.log("new user", { ...user, password: hashed });
+  const response = await new User({ ...user, password: hashed }).save({
+    new: true,
+  });
   res.send(response);
 });
 

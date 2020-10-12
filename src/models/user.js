@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
     ...requiredString,
     unique: true,
   },
+  password: requiredString,
   dateRegistered: {
     type: Number,
     default: Date.now(),
@@ -29,26 +30,11 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.virtual("password").set(function (password) {
-  this.hashed = this.encryptPassword(password);
-});
-
-userSchema.methods = {
-  authenticate: async function (password) {
-    await bcrypt.compare(password, this.hashed);
-  },
-  encryptPassword: async function (password) {
-    const salt = await bcrypt.genSalt();
-    const hashed = await bcrypt.hash(password, salt);
-    return hashed;
-  },
-
-  genJwtToken: function () {
-    return jwt.sign(
-      { email: this.email, isAdmin: this.isAdmin },
-      process.env[jwt_secret_key]
-    );
-  },
+userSchema.methods.genJwtToken = function () {
+  return jwt.sign(
+    { _id: this._id, isAdmin: this.isAdmin },
+    process.env[jwt_secret_key]
+  );
 };
 
 const User = mongoose.model("user", userSchema);
