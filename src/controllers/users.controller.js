@@ -1,17 +1,36 @@
 const { User } = require("../models/user");
+const asyncWrapper = require("../middlewares/async");
 
-const getUsers = async (req, res) => {
+const getUsers = asyncWrapper(async (req, res) => {
   const users = await User.find();
   res.send(users);
-};
+});
 
-const getUserById = async (req, res) => {
+const getUserById = asyncWrapper(async (req, res) => {
   const user = await User.findById(req.params.id);
-  res.send(user);
-};
+  if (!user)
+    return next(new Error("NotFoundError:User for the given id is not found"));
 
-const createUser = async (req, res) => {
+  res.send(user);
+});
+
+const createUser = asyncWrapper(async (req, res) => {
   const user = new User({ ...req.body });
-  await user.save({ new: true });
-};
-module.exports = { getUsers, getUserById, createUser };
+  const response = await user.save({ new: true });
+  res.send(response);
+});
+
+const updateUser = asyncWrapper(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (!user)
+    return next(new Error("NotFoundError:User for the given id is not found"));
+
+  const response = await user.update({ ...req.body });
+  res.send(response);
+});
+
+const deleteUser = asyncWrapper(async (req, res) => {
+  const response = await User.findByIdAndRemove(req.params.id);
+  res.send(response);
+});
+module.exports = { getUsers, getUserById, createUser, updateUser, deleteUser };

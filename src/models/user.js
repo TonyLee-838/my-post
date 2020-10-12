@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const jwt_secret_key = require("config").get("jwt_secret_key");
 
@@ -52,7 +53,18 @@ userSchema.methods = {
 
 const User = mongoose.model("user", userSchema);
 
+const validateUser = (user) => {
+  const schema = Joi.object({
+    name: Joi.string().max(50).min(6).required(),
+    email: Joi.string().max(255).required(),
+    password: Joi.string().max(50).min(6),
+  });
+
+  return schema.validate(user, schema);
+};
+
 module.exports = {
   userSchema,
   User,
+  validateUser,
 };

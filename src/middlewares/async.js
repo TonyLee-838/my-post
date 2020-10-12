@@ -1,9 +1,11 @@
-const asyncWrapper = async (handler) => {
-  try {
-    await handler();
-  } catch (error) {
-    next(error);
-  }
+const asyncWrapper = (handler) => {
+  return async (req, res, next) => {
+    try {
+      await handler(req, res);
+    } catch (ex) {
+      next(ex);
+    }
+  };
 };
 
 module.exports = asyncWrapper;
