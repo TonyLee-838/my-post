@@ -60,7 +60,7 @@ const validateUser = (user) => {
     password: Joi.string().max(50).min(6),
   });
 
-  return schema.validate(user, schema);
+  return schema.validate(user);
 };
 
 module.exports = {

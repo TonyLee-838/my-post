@@ -1,4 +1,4 @@
-# Backend CheckList:
+∏# Backend CheckList:
 
 - [x] Setup Environment
 
@@ -24,9 +24,9 @@
 
     - [x] GET / list all users
     - [x] POST / create a user
-    - [ ] GET /:id get a single user
-    - [ ] PUI /:id update profile of user
-    - [ ] DELETE /:id delete specific user
+    - [x] GET /:id get a single user
+    - [x] PUI /:id update profile of user
+    - [x] DELETE /:id delete specific user
     - [ ] data validation
 
   - [ ] Authentication

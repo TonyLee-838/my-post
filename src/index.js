@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const users = require("./routers/users");
 const error = require("./middlewares/error");
+const config = require("config");
 const connectToDB = require("./setup/db");
 
 connectToDB();
@@ -16,7 +17,7 @@ app.use(express.json());
 app.use("/api/users", users);
 app.use(error);
 
-const port = process.env.PORT || 3003;
+const port = process.env[config.get("port")] || 3003;
 
 const server = app.listen(port, () =>
   console.log(`listening on port ${port}...`)
