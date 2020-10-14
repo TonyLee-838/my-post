@@ -1,4 +1,4 @@
-∏# Backend CheckList:
+# Backend CheckList:
 
 - [x] Setup Environment
 
@@ -7,14 +7,14 @@
   - [x] basic express app
   - [x] setup mongodb
 
-- [ ] Error handling
+- [x] Error handling
 
-  - [ ] Global error handling
-  - [ ] get rid of redundant try-catch using middleware
+  - [x] Global error handling
+  - [x] get rid of redundant try-catch using middleware
 
 - [ ] User functionality
 
-  - [ ] User model
+  - [x] User model
 
     - [x] Schema definition
     - [x] hash password with bcrypt
@@ -27,14 +27,18 @@
     - [x] GET /:id get a single user
     - [x] PUI /:id update profile of user
     - [x] DELETE /:id delete specific user
-    - [ ] data validation
+    - [x] data validation
+    - [ ]
 
   - [ ] Authentication
 
-    - [ ] Auth route & Auth controller
-    - [ ] Sign in
-      - [ ] check password
+    - [x] Auth route & Auth controller
+    - [x] Sign in
+      - [x] check password
     - [ ] Sign out
 
   - [ ] Authorization
     - [ ] protect user route
+
+- [ ] Extract All DB Implementation details into a single place in case DB system gets changed in the future.
+  - [ ]

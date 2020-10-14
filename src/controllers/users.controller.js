@@ -25,7 +25,6 @@ const createUser = asyncWrapper(async (req, res) => {
   const salt = await bcrypt.genSalt();
   const hashed = await bcrypt.hash(user.password, salt);
 
-  console.log("new user", { ...user, password: hashed });
   const response = await new User({ ...user, password: hashed }).save({
     new: true,
   });

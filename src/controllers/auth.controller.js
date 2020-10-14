@@ -3,7 +3,7 @@ const { User } = require("../models/user");
 const bcrypt = require("bcrypt");
 
 const signIn = asyncWrapper(async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, isAdmin = false } = req.body;
   const user = await User.findOne({ email });
 
   if (!user)
@@ -13,7 +13,7 @@ const signIn = asyncWrapper(async (req, res) => {
   if (!match)
     throw new Error("AuthenticationError:Incorrect Email-Password combination");
 
-  const token = user.schema.methods.genJwtToken();
+  const token = user.schema.static.genJwtToken({ email, isAdmin });
 
   res.send(token);
 });
