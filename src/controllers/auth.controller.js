@@ -14,7 +14,7 @@ const signIn = asyncWrapper(async (req, res) => {
     throw new Error("AuthenticationError:Incorrect Email-Password combination");
 
   const token = user.schema.static.genJwtToken({ email, isAdmin });
-
+  res.header("x-auth-token", token);
   res.send(token);
 });
 

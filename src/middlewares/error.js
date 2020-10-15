@@ -1,12 +1,16 @@
 module.exports = (error, req, res, next) => {
-  if (error.message.startsWith("ValidationError"))
-    return res.status(400).send(error.message);
+  const message = error.message;
 
-  if (error.message.startsWith("NotFoundError"))
-    return res.status(404).send(error.message);
+  if (message.startsWith("ValidationError"))
+    return res.status(400).send(message);
 
-  if (error.message.startsWith("AuthenticationError"))
-    return res.status(404).send(error.message);
+  if (message.startsWith("AuthenticationError"))
+    return res.status(401).send(message);
+
+  if (message.startsWith("NotFoundError")) return res.status(404).send(message);
+
+  if (message.startsWith("AuthenticationError"))
+    return res.status(404).send(message);
 
   console.error({ message: "InternalNetworkError", stack: error.stack });
 

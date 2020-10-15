@@ -45,4 +45,5 @@ const deleteUser = asyncWrapper(async (req, res) => {
   const user = await deleteUserFromDB(req.params.id);
   res.send(user);
 });
+
 module.exports = { getUsers, getUserById, createUser, updateUser, deleteUser };

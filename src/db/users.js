@@ -1,4 +1,5 @@
 const { User, validateUser } = require("../models/user");
+const mongoose = require("mongoose");
 const _ = require("lodash");
 
 const getAllUsersFromDB = () => {
@@ -38,13 +39,21 @@ const deleteUserFromDB = async (id) => {
   return user;
 };
 
+const deleteAllUserFromDB = async () => {
+  return User.deleteMany();
+};
+
 const validate = (user) => validateUser(user);
 
+const generateObjectId = () => new mongoose.Types.ObjectId().toHexString();
+
 module.exports = {
+  deleteUserFromDB,
+  deleteAllUserFromDB,
+  generateObjectId,
   getAllUsersFromDB,
   getUserFormDB,
   insertUpdatedUserIntoDB,
   insertNewUserIntoDB,
-  deleteUserFromDB,
   validate,
 };

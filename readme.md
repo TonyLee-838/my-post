@@ -28,7 +28,6 @@
     - [x] PUI /:id update profile of user
     - [x] DELETE /:id delete specific user
     - [x] data validation
-    - [ ]
 
   - [ ] Authentication
 
