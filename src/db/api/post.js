@@ -20,11 +20,14 @@ const deletePostFromDB = async (id) => {
     return post.remove()
 }
 
+const deleteAllPostsFromDB = () => Post.deleteMany({})
+
 
 module.exports = {
     getAllPostsFromDB,
     getPostFromDB,
     insertNewPostToDB,
     updatePostToDB,
-    deletePostFromDB
+    deletePostFromDB,
+    deleteAllPostsFromDB
 };
