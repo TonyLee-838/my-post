@@ -1,6 +1,6 @@
 module.exports = (error, req, res, next) => {
   const message = error.message;
-  console.warn("Error!: ", message);
+  if(process.env.NODE_ENV === "DEVELOPMENT") console.warn("Error!: ", message);
   if (message.startsWith("ValidationError"))
     return res.status(400).send(message);
 

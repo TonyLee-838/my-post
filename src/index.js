@@ -16,15 +16,17 @@ const app = express();
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
-app.use(logger);
+
 app.use("/api/users", users);
 app.use("/api/auth", auth);
 app.use(error);
 
 const port = process.env[config.get("port")] || 3003;
 
-const server = app.listen(port, () =>
+const server = app.listen(port, () => {
+  if(process.env.NODE_ENV === "DEVELOPMENT")
   console.log(`listening on port ${port}...`)
+}
 );
 
 module.exports = server;

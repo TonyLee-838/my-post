@@ -8,7 +8,7 @@ const {
   insertUpdatedUserIntoDB,
   deleteUserFromDB,
   validate,
-} = require("../db/users");
+} = require("../db/api/users");
 
 const getUsers = asyncWrapper(async (req, res) => {
   const users = await getAllUsersFromDB();

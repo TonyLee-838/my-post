@@ -1,5 +1,5 @@
 const asyncWrapper = require("../middlewares/async");
-const { User } = require("../models/user");
+const { User } = require("../db/models/user");
 const bcrypt = require("bcrypt");
 
 const signIn = asyncWrapper(async (req, res) => {
