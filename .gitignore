@@ -8,3 +8,4 @@ tests/
 nodemon.json
 webpack.config.js
 yarn.lock
+jest.config.js
