@@ -5,6 +5,9 @@ const {
   insertNewPostToDB,
   updatePostToDB,
 } = require("../db/api/post");
+
+const { getUserFormDB } = require("../db/api/users")
+
 const asyncWrapper = require("../middlewares/async");
 
 const listPosts = asyncWrapper(async (req, res) => {
@@ -23,8 +26,15 @@ const getPost = asyncWrapper(async(req,res) => {
 const createPost = asyncWrapper(async(req,res) => {
     const post = req.body;
     //TODO:validation post
+    if(!post.title || post.title instanceof String || post.title.length > 255) 
+        throw new Error("ValidationError: Invalid title provided!")
 
-    const response = insertNewPostToDB(post)
+    const user = await getUserFormDB({_id:post.userId})
+    
+    if(!user.length) throw new Error("NotFoundError: user for the given id is not found.")
+
+    const response = await insertNewPostToDB(post)
+    // console.log(response);
     res.send(response)
 })
 
@@ -32,14 +42,17 @@ const updatePost = asyncWrapper(async (req,res) => {
     const post = req.body;
     //TODO:validation post
 
-    const response = await updatePostToDB(post)
+    if(!post.title || post.title instanceof String || post.title.length > 255) 
+        throw new Error("ValidationError: Invalid title provided!")
+
+    const response = await updatePostToDB(post,req.params.id)
     if(!response) throw new Error("NotFoundError: post for the given id is not found.")
 
     res.send(response)
 })
 
 const deletePost = asyncWrapper(async (req,res) => {
-    const response = deletePostFromDB(req.params.id)
+    const response = await deletePostFromDB(req.params.id)
     if(!response) throw new Error("NotFoundError: post for the given id is not found.")
 
     res.send(response);

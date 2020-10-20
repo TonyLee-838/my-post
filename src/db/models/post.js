@@ -5,7 +5,11 @@ const defaultTime = {
     default:Date.now()
 }
 const postSchema = new mongoose.Schema({
-    
+    title:{
+        type:String,
+        required:true,
+        max:255
+    },
     userId:{
         type:mongoose.Schema.Types.ObjectId,
         required:true

@@ -4,13 +4,16 @@ const getAllPostsFromDB = () => Post.find()
 
 const getPostFromDB = (condition) => Post.findOne(condition);
 
-const insertNewPostToDB = (post) => new Post(post).save({new:true});
+const insertNewPostToDB = (post) => {
+    const newPost = new Post(post);
+    return newPost.save({new:true})
+}
 
 const updatePostToDB = async (data,id) => {
     const post =  await Post.findById(id);
     if(!post) return null;
 
-    return post.update(data)
+    return post.update()
 }
 
 const deletePostFromDB = async (id) => {

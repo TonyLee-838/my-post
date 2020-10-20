@@ -8,6 +8,8 @@ const connectToDB = async () => {
     await mongoose.connect(`${baseURL}/${dbName}`, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex:true,
+      useFindAndModify:false
     })
     if(process.env.NODE_ENV === "DEVELOPMENT") console.log("Successfully connected to mongodb");
   } catch (error) {
