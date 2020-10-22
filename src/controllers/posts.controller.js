@@ -3,6 +3,7 @@ const {
   getPostsFromDB,
   insertNewPostToDB,
   updatePostToDB,
+  isValidTitle,
 } = require("../db/api/post");
 const { getUserFormDB } = require("../db/api/users");
 
@@ -29,8 +30,8 @@ const getPostById = asyncWrapper(async (req, res) => {
 
 const createPost = asyncWrapper(async (req, res) => {
   const post = req.body;
-  //TODO:validation post
-  if (!post.title || post.title instanceof String || post.title.length > 255)
+
+  if (!isValidTitle(post.title))
     throw new Error("ValidationError: Invalid title provided!");
 
   const user = await getUserFormDB({ _id: post.userId });
@@ -47,11 +48,7 @@ const createPost = asyncWrapper(async (req, res) => {
 const updatePost = asyncWrapper(async (req, res) => {
   const inputData = req.body;
 
-  if (
-    !inputData.title ||
-    inputData.title instanceof String ||
-    inputData.title.length > 255
-  )
+  if (!isValidTitle(inputData.title))
     throw new Error("ValidationError: Invalid title provided!");
 
   const [post] = await getPostsFromDB({ _id: req.params.id });

@@ -1,5 +1,4 @@
 const Post = require("../models/post");
-const { getUserFormDB } = require("./users");
 
 const getPostsFromDB = (condition) => Post.find(condition);
 
@@ -8,7 +7,7 @@ const insertNewPostToDB = (post) => {
   return newPost.save({ new: true });
 };
 
-const updatePostToDB = async (data, id) => Post.updateOne({_id:id},data)
+const updatePostToDB = async (data, id) => Post.updateOne({ _id: id }, data);
 
 const deletePostFromDB = async (id) => {
   const post = await Post.findById(id);
@@ -19,6 +18,8 @@ const deletePostFromDB = async (id) => {
 
 const deleteAllPostsFromDB = () => Post.deleteMany({});
 
+const isValidTitle = (title) =>
+  title && typeof title === "string" && title.length < 255;
 
 module.exports = {
   getPostsFromDB,
@@ -26,4 +27,5 @@ module.exports = {
   updatePostToDB,
   deletePostFromDB,
   deleteAllPostsFromDB,
+  isValidTitle,
 };
