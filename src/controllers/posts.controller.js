@@ -30,7 +30,7 @@ const getPostById = asyncWrapper(async (req, res) => {
 
 const createPost = asyncWrapper(async (req, res) => {
   const post = req.body;
-
+  
   if (!isValidTitle(post.title))
     throw new Error("ValidationError: Invalid title provided!");
 
@@ -41,7 +41,6 @@ const createPost = asyncWrapper(async (req, res) => {
   post.contentHtml = toHtml(post.contentMd);
 
   const response = await insertNewPostToDB(post);
-  // console.log(response);
   res.send(response);
 });
 
@@ -68,9 +67,17 @@ const updatePost = asyncWrapper(async (req, res) => {
 });
 
 const deletePost = asyncWrapper(async (req, res) => {
-  const response = await deletePostFromDB(req.params.id);
-  if (!response)
+
+  const [post] = await getPostsFromDB({ _id: req.params.id });
+  if (!post)
     throw new Error("NotFoundError: post for the given id is not found.");
+
+  if (!post.userId.equals(req.user.id))
+    throw new Error(
+      "UnauthorizeError: Access denied. You are not the corresponding author of this article."
+    );
+
+  const response = await deletePostFromDB(req.params.id);
 
   res.send(response);
 });

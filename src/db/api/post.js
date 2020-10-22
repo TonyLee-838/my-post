@@ -9,12 +9,7 @@ const insertNewPostToDB = (post) => {
 
 const updatePostToDB = async (data, id) => Post.updateOne({ _id: id }, data);
 
-const deletePostFromDB = async (id) => {
-  const post = await Post.findById(id);
-  if (!post) return null;
-
-  return post.remove();
-};
+const deletePostFromDB = async (id) => Post.findByIdAndRemove(id)
 
 const deleteAllPostsFromDB = () => Post.deleteMany({});
 
