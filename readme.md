@@ -36,8 +36,6 @@
       - [x] check password
     - [ ] Sign out
 
-  - [ ] Authorization
-    - [ ] protect user route
 
 - [x] Extract All DB Implementation details into a single place in case DB system gets changed in the future.
 
@@ -49,4 +47,9 @@
   - [x] DELETE /:id delete specific post
   - [x] data validation
 
-- [ ] markdown file convertor
+- [x] markdown file convertor
+
+- [ ] Authorization
+  - [x] protect user route
+  - [x] only allow admin to manage all the posts.
+  - [ ] allow author edit his/her own page.

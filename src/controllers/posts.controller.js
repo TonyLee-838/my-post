@@ -1,7 +1,6 @@
 const {
   deletePostFromDB,
-  getAllPostsFromDB,
-  getPostFromDB,
+  getPostsFromDB,
   insertNewPostToDB,
   updatePostToDB,
 } = require("../db/api/post");
@@ -11,13 +10,18 @@ const { toHtml } = require("../helper/markdown");
 const asyncWrapper = require("../middlewares/async");
 
 const listPosts = asyncWrapper(async (req, res) => {
-  const posts = await getAllPostsFromDB();
+  const posts = await getPostsFromDB();
   res.send(posts);
 });
 
-const getPost = asyncWrapper(async (req, res) => {
-  const post = await getPostFromDB({ _id: req.params.id });
-  if (!post)
+const listPostsByUser = asyncWrapper(async (req, res) => {
+  const post = await getPostsFromDB({ userId: req.query.userId });
+  res.send(post);
+});
+
+const getPostById = asyncWrapper(async (req, res) => {
+  const post = await getPostsFromDB({ _id: req.params.id });
+  if (!post.length)
     throw new Error("NotFoundError: post for the given id is not found.");
 
   res.send(post);
@@ -41,17 +45,27 @@ const createPost = asyncWrapper(async (req, res) => {
 });
 
 const updatePost = asyncWrapper(async (req, res) => {
-  const post = req.body;
-  //TODO:validation post
+  const inputData = req.body;
 
-  if (!post.title || post.title instanceof String || post.title.length > 255)
+  if (
+    !inputData.title ||
+    inputData.title instanceof String ||
+    inputData.title.length > 255
+  )
     throw new Error("ValidationError: Invalid title provided!");
 
-  post.contentHtml = toHtml(post.contentMd);
-
-  const response = await updatePostToDB(post, req.params.id);
-  if (!response)
+  const [post] = await getPostsFromDB({ _id: req.params.id });
+  if (!post)
     throw new Error("NotFoundError: post for the given id is not found.");
+
+  if (!post.userId.equals(req.user.id))
+    throw new Error(
+      "UnauthorizeError: Access denied. You are not the corresponding author of this article."
+    );
+
+  inputData.contentHtml = toHtml(inputData.contentMd);
+
+  const response = await updatePostToDB(inputData, req.params.id);
 
   res.send(response);
 });
@@ -66,7 +80,7 @@ const deletePost = asyncWrapper(async (req, res) => {
 
 module.exports = {
   listPosts,
-  getPost,
+  getPostById,
   createPost,
   updatePost,
   deletePost,

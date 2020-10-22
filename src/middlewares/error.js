@@ -7,9 +7,10 @@ module.exports = (error, req, res, next) => {
   if (message.startsWith("AuthenticationError"))
     return res.status(401).send(message);
 
-  if (message.startsWith("NotFoundError")) return res.status(404).send(message);
+  if (message.startsWith("UnauthorizeError"))
+    return res.status(403).send(message);
 
-  if (message.startsWith("AuthenticationError"))
+  if (message.startsWith("NotFoundError")) 
     return res.status(404).send(message);
 
   console.error({ message: "InternalNetworkError", stack: error.stack });
