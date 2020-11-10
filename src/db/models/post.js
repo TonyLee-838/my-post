@@ -6,8 +6,8 @@ const defaultTime = {
   default: Date.now(),
 };
 const postSchema = new mongoose.Schema({
-  category: {
-    type: categorySchema,
+  categoryId: {
+    type: String,
   },
   contentMd: String,
   contentHtml: String,
