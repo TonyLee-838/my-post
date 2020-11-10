@@ -1,26 +1,29 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const { categorySchema } = require("./category");
 
 const defaultTime = {
-    type:Number,
-    default:Date.now()
-}
+  type: Number,
+  default: Date.now(),
+};
 const postSchema = new mongoose.Schema({
-    title:{
-        type:String,
-        required:true,
-        max:255
-    },
-    userId:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true
-    },
-    contentMd:String,
-    contentHtml:String,
-    timeCreated:defaultTime,
-    timeUpdated:defaultTime
-})
+  category: {
+    type: categorySchema,
+  },
+  contentMd: String,
+  contentHtml: String,
+  title: {
+    type: String,
+    required: true,
+    max: 255,
+  },
+  timeCreated: defaultTime,
+  timeUpdated: defaultTime,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
+});
 
-
-const Post = mongoose.model("post",postSchema)
+const Post = mongoose.model("post", postSchema);
 
 module.exports = Post;
