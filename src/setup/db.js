@@ -8,13 +8,14 @@ const connectToDB = async () => {
     await mongoose.connect(`${baseURL}/${dbName}`, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex:true,
-      useFindAndModify:false
-    })
-    if(process.env.NODE_ENV === "DEVELOPMENT") console.log("Successfully connected to mongodb");
+      useCreateIndex: true,
+      useFindAndModify: false,
+    });
+    if (process.env.NODE_ENV === "development")
+      console.log("Successfully connected to mongodb");
   } catch (error) {
     console.warn("Something wrong happened when connecting to mongodb");
   }
-}
+};
 
 module.exports = connectToDB;
