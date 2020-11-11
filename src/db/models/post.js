@@ -7,7 +7,7 @@ const defaultTime = {
 };
 const postSchema = new mongoose.Schema({
   categoryId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
   },
   contentMd: String,
   contentHtml: String,
