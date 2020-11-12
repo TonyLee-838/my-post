@@ -13,8 +13,17 @@ const getDefaultPostDescription = require("../helper/postDescription");
 const asyncWrapper = require("../middlewares/async");
 
 const listPosts = asyncWrapper(async (req, res) => {
-  const posts = await getPostsFromDB();
-  posts.map((post) => ({
+  let posts = await getPostsFromDB();
+
+  if (req.query.category) {
+    const category = await getCategoriesFromDb({ name: req.query.category });
+    const categoryId = category[0]._id;
+    posts = posts.filter(
+      (post) => post.categoryId.toString() === categoryId.toString()
+    );
+  }
+
+  const result = posts.map((post) => ({
     id: post._id,
     userId: post.userId,
     categoryId: post.categoryId,
@@ -22,8 +31,9 @@ const listPosts = asyncWrapper(async (req, res) => {
     description: post.description
       ? post.description
       : getDefaultPostDescription(post.contentHtml),
+    timeUpdated: post.timeUpdated,
   }));
-  res.send(posts);
+  res.send(result);
 });
 
 const getPostById = asyncWrapper(async (req, res) => {
