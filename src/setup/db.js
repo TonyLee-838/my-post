@@ -12,9 +12,9 @@ const connectToDB = async () => {
       useFindAndModify: false,
     });
     if (process.env.NODE_ENV === "development")
-      console.log("Successfully connected to mongodb");
+      console.log("Successfully connected to mongodb...");
   } catch (error) {
-    console.warn("Something wrong happened when connecting to mongodb");
+    console.warn("Something wrong happened when connecting to mongodb...");
   }
 };
 

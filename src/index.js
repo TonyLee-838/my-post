@@ -6,6 +6,7 @@ require("dotenv").config();
 const users = require("./routers/users");
 const auth = require("./routers/auth");
 const posts = require("./routers/posts");
+const pieces = require("./routers/pieces");
 const categories = require("./routers/categories");
 const error = require("./middlewares/error");
 const config = require("config");
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use("/api/users", users);
 app.use("/api/auth", auth);
 app.use("/api/posts", posts);
+app.use("/api/pieces", pieces);
 app.use("/api/categories", categories);
 app.use(error);
 
