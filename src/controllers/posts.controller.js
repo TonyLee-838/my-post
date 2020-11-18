@@ -46,7 +46,6 @@ const getPostById = asyncWrapper(async (req, res) => {
 
 const createPost = asyncWrapper(async (req, res) => {
   const post = req.body;
-
   if (!isValidTitle(post.title))
     throw new Error("ValidationError: Invalid title provided!");
 
